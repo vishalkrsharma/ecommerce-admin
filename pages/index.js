@@ -8,7 +8,7 @@ export default function Home() {
   return (
     <Layout>
       <div className='text-blue-900 flex justify-between items-center'>
-        Hello, {session?.user?.name}
+        <h1>Hello, {session?.user?.name}</h1>
         <div className='flex items-center gap-4 bg-gray-300 p-2 rounded-lg cursor-pointer' title='Logout' onClick={() => signOut()}>
           <Image src={session?.user?.image} alt={session?.user?.name} width={40} height={40} className='rounded-full' />
           <div>{session?.user?.name}</div>
