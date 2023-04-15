@@ -1,9 +1,10 @@
-import Layout from '@/components/Layout';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import { BiUpload } from 'react-icons/bi';
 
-export default function ProducForm({ _id, title: prevTitle, description: prevDescription, price: prevPrice }) {
+export default function ProducForm(props) {
+  const { _id, title: prevTitle, description: prevDescription, price: prevPrice, images } = props;
   const router = useRouter();
   const [goToProducts, setGoToProducts] = useState(false);
 
@@ -12,8 +13,6 @@ export default function ProducForm({ _id, title: prevTitle, description: prevDes
     description: '',
     price: '',
   });
-
-  console.log(_id);
 
   useEffect(() => {
     setProductData({
@@ -47,10 +46,32 @@ export default function ProducForm({ _id, title: prevTitle, description: prevDes
     router.push('/products');
   }
 
+  const uploadImages = async (event) => {
+    const files = event.target?.files;
+    if (files?.length > 0) {
+      const data = new FormData();
+      // for (const file in files) {
+      //   data.append('file', file);
+      // }
+
+      data.append('file', files[0]);
+      const res = await axios.post('/api/upload', data);
+      console.log(res);
+    }
+  };
+
   return (
     <form onSubmit={createProduct}>
       <label htmlFor='title'>Product Name</label>
       <input type='text' id='title' placeholder='Product Name' value={productData.title} name='title' onChange={handleChange} />
+
+      <label htmlFor='image'>Images</label>
+      <div className='mb-2 w-32 h-32 border flex justify-center items-center flex-col bg-gray-200 rounded-lg relative'>
+        <BiUpload className='text-4xl text-blue-900' />
+        <div>Upload</div>
+        <input className='w-full h-full absolute mt-3 z-10 opacity-0 cursor-pointer' type='file' id='image' onChange={uploadImages} />
+      </div>
+      {!images?.length && <div>No Photos</div>}
 
       <label htmlFor='description'>Description</label>
       <textarea id='description' placeholder='Description' value={productData.description} name='description' onChange={handleChange} />

@@ -5,7 +5,7 @@ export default function Layout({ children }) {
   const { data: session } = useSession();
   if (!session) {
     return (
-      <div className='bg-blue-900 flex items-center min-h-screen'>
+      <div className='bg-blue-900 flex items-center justify-center min-h-screen'>
         <div className='text-center'>
           <button className='bg-white p-2 px-4 rounded-lg' onClick={() => signIn('google')}>
             Login with Google
