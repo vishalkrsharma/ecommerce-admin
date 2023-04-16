@@ -1,10 +1,11 @@
 import axios from 'axios';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { BiUpload } from 'react-icons/bi';
 
 export default function ProducForm(props) {
-  const { _id, title: prevTitle, description: prevDescription, price: prevPrice, images } = props;
+  const { _id, title: prevTitle, description: prevDescription, price: prevPrice, image: prevImage } = props;
   const router = useRouter();
   const [goToProducts, setGoToProducts] = useState(false);
 
@@ -12,6 +13,7 @@ export default function ProducForm(props) {
     title: '',
     description: '',
     price: '',
+    image: '',
   });
 
   useEffect(() => {
@@ -19,8 +21,20 @@ export default function ProducForm(props) {
       title: prevTitle,
       description: prevDescription,
       price: prevPrice,
+      image: prevImage,
     });
   }, [prevTitle]);
+
+  const imgToBase64 = (event) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(event.target.files[0]);
+    reader.onload = () => {
+      setProductData((prevProductData) => ({
+        ...prevProductData,
+        image: reader.result,
+      }));
+    };
+  };
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -56,7 +70,6 @@ export default function ProducForm(props) {
 
       data.append('file', files[0]);
       const res = await axios.post('/api/upload', data);
-      console.log(res);
     }
   };
 
@@ -66,12 +79,15 @@ export default function ProducForm(props) {
       <input type='text' id='title' placeholder='Product Name' value={productData.title} name='title' onChange={handleChange} />
 
       <label htmlFor='image'>Images</label>
-      <div className='mb-2 w-32 h-32 border flex justify-center items-center flex-col bg-gray-200 rounded-lg relative'>
-        <BiUpload className='text-4xl text-blue-900' />
-        <div>Upload</div>
-        <input className='w-full h-full absolute mt-3 z-10 opacity-0 cursor-pointer' type='file' id='image' onChange={uploadImages} />
+      <div className='flex gap-2 items-center'>
+        <div className='mb-2 w-32 h-32 border flex justify-center items-center flex-col bg-gray-200 rounded-lg relative'>
+          <BiUpload className='text-4xl text-blue-900' />
+          <div>Upload</div>
+          <input className='w-full h-full absolute mt-3 z-10 opacity-0 cursor-pointer' type='file' id='image' onChange={imgToBase64} />
+        </div>
+        {/* {!images?.length && <div>No Photos</div>} */}
+        {productData.image === '' || productData.image === null ? '' : <Image className='w-fill h-full' src={productData.image} width={100} height={100} />}
       </div>
-      {!images?.length && <div>No Photos</div>}
 
       <label htmlFor='description'>Description</label>
       <textarea id='description' placeholder='Description' value={productData.description} name='description' onChange={handleChange} />
