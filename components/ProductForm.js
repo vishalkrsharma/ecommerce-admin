@@ -79,14 +79,18 @@ export default function ProducForm(props) {
       <input type='text' id='title' placeholder='Product Name' value={productData.title} name='title' onChange={handleChange} />
 
       <label htmlFor='image'>Images</label>
-      <div className='flex gap-2 items-center'>
-        <div className='mb-2 w-32 h-32 border flex justify-center items-center flex-col bg-gray-200 rounded-lg relative'>
+      <div className='flex gap-2 items-center mb-2'>
+        <div className=' w-32 h-32 border flex justify-center items-center flex-col bg-gray-200 rounded-lg relative'>
           <BiUpload className='text-4xl text-blue-900' />
           <div>Upload</div>
           <input className='w-full h-full absolute mt-3 z-10 opacity-0 cursor-pointer' type='file' id='image' onChange={imgToBase64} />
         </div>
         {/* {!images?.length && <div>No Photos</div>} */}
-        {productData.image === '' || productData.image === null ? '' : <Image className='w-fill h-full' src={productData.image} width={100} height={100} />}
+        {productData.image === '' ? (
+          <div>No Images</div>
+        ) : (
+          <Image className='rounded-lg' src={productData.image} width={128} height={128} alt='product image' />
+        )}
       </div>
 
       <label htmlFor='description'>Description</label>
