@@ -2,7 +2,7 @@ import axios from 'axios';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { BiUpload } from 'react-icons/bi';
+import { BiUpload, BiTrash } from 'react-icons/bi';
 
 export default function ProducForm(props) {
   const { _id, title: prevTitle, description: prevDescription, price: prevPrice, image: prevImage } = props;
@@ -28,6 +28,7 @@ export default function ProducForm(props) {
   const imgToBase64 = (event) => {
     const reader = new FileReader();
     reader.readAsDataURL(event.target.files[0]);
+    const imgs = [];
     reader.onload = () => {
       setProductData((prevProductData) => ({
         ...prevProductData,
@@ -56,22 +57,18 @@ export default function ProducForm(props) {
     setGoToProducts(true);
   };
 
+  const deleteImage = () => {
+    setProductData((prevProductData) => ({
+      ...prevProductData,
+      image: '',
+    }));
+  };
+
   if (goToProducts) {
     router.push('/products');
   }
 
-  const uploadImages = async (event) => {
-    const files = event.target?.files;
-    if (files?.length > 0) {
-      const data = new FormData();
-      // for (const file in files) {
-      //   data.append('file', file);
-      // }
-
-      data.append('file', files[0]);
-      const res = await axios.post('/api/upload', data);
-    }
-  };
+  console.log(productData);
 
   return (
     <form onSubmit={createProduct}>
@@ -81,15 +78,25 @@ export default function ProducForm(props) {
       <label htmlFor='image'>Images</label>
       <div className='flex gap-2 items-center mb-2'>
         <div className=' w-32 h-32 border flex justify-center items-center flex-col bg-gray-200 rounded-lg relative'>
-          <BiUpload className='text-4xl text-blue-900' />
-          <div>Upload</div>
-          <input className='w-full h-full absolute mt-3 z-10 opacity-0 cursor-pointer' type='file' id='image' onChange={imgToBase64} />
+          <BiUpload className={`text-4xl ${productData.image === '' ? 'text-blue-900' : 'text-gray-500'}`} />
+          <div className={`${productData.image === '' ? 'text-blue-900' : 'text-gray-500'}`}>Upload</div>
+          <input
+            className='w-full h-full absolute mt-3 z-10 opacity-0 cursor-pointer'
+            type='file'
+            id='image'
+            onChange={imgToBase64}
+            disabled={productData.image !== ''}
+          />
         </div>
-        {/* {!images?.length && <div>No Photos</div>} */}
         {productData.image === '' ? (
-          <div>No Images</div>
+          <div className='w-32 h-32 flex items-center justify-center'>No Images</div>
         ) : (
-          <Image className='rounded-lg' src={productData.image} width={128} height={128} alt='product image' />
+          <div className='relative' onClick={deleteImage}>
+            <Image className='rounded-lg' src={productData.image} width={128} height={128} alt='product image' />
+            <div className='absolute w-32 h-32 text-4xl -top-1 z-10 flex items-center justify-center text-white'>
+              <BiTrash />
+            </div>
+          </div>
         )}
       </div>
 
