@@ -16,14 +16,18 @@ export default function ProducForm(props) {
     image: '',
   });
 
-  useEffect(() => {
-    setProductData({
-      title: prevTitle,
-      description: prevDescription,
-      price: prevPrice,
-      image: prevImage,
-    });
-  }, [prevTitle]);
+  console.log(router);
+
+  if (router.asPath.includes('/products/edit')) {
+    useEffect(() => {
+      setProductData({
+        title: prevTitle,
+        description: prevDescription,
+        price: prevPrice,
+        image: prevImage,
+      });
+    }, [prevTitle, prevDescription, prevPrice, prevImage]);
+  }
 
   const imgToBase64 = (event) => {
     const reader = new FileReader();
