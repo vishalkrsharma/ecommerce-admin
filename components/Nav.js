@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { BiStore, BiHome, BiCog, BiShoppingBag, BiBox } from 'react-icons/bi';
+import { BiStore, BiHome, BiCog, BiShoppingBag, BiBox, BiCategory } from 'react-icons/bi';
 
 export default function Nav() {
   const inactiveLink = 'flex items-center gap-4 p-2 rounded-l-lg';
@@ -19,6 +19,10 @@ export default function Nav() {
         <Link className={pathname === '/' ? activeLink : inactiveLink} href='/'>
           <BiHome className='text-3xl' />
           Dashboard
+        </Link>
+        <Link className={pathname.includes('/categories') ? activeLink : inactiveLink} href='/categories'>
+          <BiCategory className='text-3xl' />
+          Categories
         </Link>
         <Link className={pathname.includes('/products') ? activeLink : inactiveLink} href='/products'>
           <BiBox className='text-3xl' />
