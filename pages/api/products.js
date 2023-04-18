@@ -6,7 +6,6 @@ export default async function handle(req, res) {
   await mongooseConnect();
   if (method === 'POST') {
     const { title, description, price, image } = req.body;
-    console.log(req.body);
     const productDoc = await Product.create({
       title,
       image,

@@ -16,8 +16,6 @@ export default function ProducForm(props) {
     image: '',
   });
 
-  console.log(router);
-
   if (router.asPath.includes('/products/edit')) {
     useEffect(() => {
       setProductData({
@@ -71,8 +69,6 @@ export default function ProducForm(props) {
   if (goToProducts) {
     router.push('/products');
   }
-
-  console.log(productData);
 
   return (
     <form onSubmit={createProduct}>
