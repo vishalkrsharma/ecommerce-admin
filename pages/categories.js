@@ -75,6 +75,8 @@ function Categories({ swal }) {
       <form onSubmit={saveCategory}>
         <label htmlFor='category'>{editedCategory ? `Edit Category ${editedCategory.name}` : 'New Category Name'}</label>
         <input type='text' id='category' placeholder='Category Name' value={category.category} name='category' onChange={handleChange} />
+
+        <label htmlFor='parentCategory'>Select Parent Category</label>
         <select name='parentCategory' value={category.parentCategory} id='parentCategory' onChange={handleChange}>
           <option value=''>No parent category</option>
           {categories.length > 0

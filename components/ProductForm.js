@@ -4,16 +4,18 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { BiUpload, BiTrash } from 'react-icons/bi';
 
-export default function ProducForm(props) {
-  const { _id, title: prevTitle, description: prevDescription, price: prevPrice, image: prevImage } = props;
+export default function ProductForm(props) {
+  const { _id, title: prevTitle, description: prevDescription, price: prevPrice, image: prevImage, category: prevCategory } = props;
   const router = useRouter();
   const [goToProducts, setGoToProducts] = useState(false);
+  const [categories, setCategories] = useState([]);
 
   const [productData, setProductData] = useState({
     title: '',
     description: '',
     price: '',
     image: '',
+    category: '',
   });
 
   if (router.asPath.includes('/products/edit')) {
@@ -23,9 +25,19 @@ export default function ProducForm(props) {
         description: prevDescription,
         price: prevPrice,
         image: prevImage,
+        category: prevCategory,
       });
-    }, [prevTitle, prevDescription, prevPrice, prevImage]);
+    }, [prevTitle, prevDescription, prevPrice, prevImage, prevDescription]);
   }
+
+  useEffect(() => {
+    async function getCategories() {
+      const res = await axios.get('/api/categories');
+      const { data } = res;
+      setCategories(data);
+    }
+    getCategories();
+  }, []);
 
   const imgToBase64 = (event) => {
     const reader = new FileReader();
@@ -70,10 +82,18 @@ export default function ProducForm(props) {
     router.push('/products');
   }
 
+  console.log(productData);
+
   return (
     <form onSubmit={createProduct}>
       <label htmlFor='title'>Product Name</label>
       <input type='text' id='title' placeholder='Product Name' value={productData.title} name='title' onChange={handleChange} />
+
+      <label htmlFor='category'>Category</label>
+      <select value={productData.category} name='category' onChange={handleChange}>
+        <option value=''>Uncategorized</option>
+        {categories.length > 0 && categories.map((cat) => <option value={cat._id}>{cat.name}</option>)}
+      </select>
 
       <label htmlFor='image'>Images</label>
       <div className='flex gap-2 items-center mb-2'>
