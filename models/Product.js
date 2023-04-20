@@ -20,6 +20,9 @@ const ProductSchema = new Schema({
     type: mongoose.Types.ObjectId,
     ref: 'Category',
   },
+  properties: {
+    type: Object,
+  },
 });
 
 export const Product = models.Product || model('Product', ProductSchema);
