@@ -1,12 +1,18 @@
+import { signOut } from 'next-auth/react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { BiStore, BiHome, BiCog, BiShoppingBag, BiBox, BiCategory } from 'react-icons/bi';
+import { BiStore, BiHome, BiCog, BiShoppingBag, BiBox, BiCategory, BiLogOut } from 'react-icons/bi';
 
 export default function Nav() {
   const inactiveLink = 'flex items-center gap-4 p-2 rounded-l-lg';
   const activeLink = inactiveLink + ' bg-white text-blue-900';
   const router = useRouter();
   const { pathname } = router;
+
+  const logout = () => {
+    router.push('/');
+    signOut();
+  };
 
   return (
     <aside className='text-white p-4 pr-0'>
@@ -36,6 +42,10 @@ export default function Nav() {
           <BiCog className='text-3xl' />
           Settings
         </Link>
+        <button className={inactiveLink} onClick={logout}>
+          <BiLogOut className='text-3xl' />
+          Log Out
+        </button>
       </nav>
     </aside>
   );
