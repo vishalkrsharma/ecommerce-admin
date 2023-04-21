@@ -18,7 +18,7 @@ export default function Products() {
 
   return (
     <Layout>
-      <Link className='bg-blue-900 text-white py-2 px-4 rounded-lg' href='/products/new'>
+      <Link className='btn-primary' href='/products/new'>
         Add new Product
       </Link>
       <table className='basic mt-4'>
@@ -33,11 +33,11 @@ export default function Products() {
             <tr key={product._id}>
               <td className='break-all'>{product.title}</td>
               <td>
-                <Link className='mr-2' href={'/products/edit/' + product._id}>
+                <Link href={'/products/edit/' + product._id} className='btn-default'>
                   <BiPencil />
                   Edit
                 </Link>
-                <Link className='mr-2' href={'/products/delete/' + product._id}>
+                <Link href={'/products/delete/' + product._id} className='btn-red'>
                   <BiTrash />
                   Delete
                 </Link>

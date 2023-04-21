@@ -5,45 +5,43 @@
 input,
 textarea,
 select {
-  @apply border-2 border-gray-300 rounded-md py-1 px-3 block;
+  @apply text-gray-600 text-sm bg-background;
+  @apply border border-gray-200 rounded-md py-2 px-3 w-full;
   @apply mb-3;
-}
-
-textarea {
-  @apply w-1/2;
+  @apply shadow-md;
 }
 
 input:focus,
 textarea:focus {
-  @apply border-blue-900;
+  @apply border-primary;
 }
 
 h1 {
-  @apply text-blue-900 mb-2 text-xl;
+  @apply text-primary mb-4 text-xl;
 }
 
 label {
-  @apply text-blue-900;
+  @apply text-gray-600 text-sm;
 }
 
 .btn-primary {
-  @apply bg-blue-900 text-white px-4 py-1 rounded-md;
+  @apply bg-primary text-white px-4 py-1 rounded-md;
 }
 
 table.basic {
-  @apply w-full;
+  @apply w-full bg-white rounded-md shadow-md;
 }
 
 table.basic thead tr td {
-  @apply bg-blue-100;
+  @apply text-sm text-gray-600 uppercase border-b border-gray-200;
 }
 
 table.basic tr td {
-  @apply border border-blue-700 p-1;
+  @apply p-2;
 }
 
 table.basic a {
-  @apply bg-blue-900 text-white text-sm py-1 px-2 rounded-md inline-flex items-center gap-1;
+  @apply px-4 py-1 rounded-md inline-flex items-center gap-2 mx-1;
 }
 
 .btn-red,
@@ -52,9 +50,19 @@ table.basic a {
 }
 
 .btn-red {
-  @apply bg-red-700 text-white;
+  @apply bg-red-200 text-red-600;
 }
 
 .btn-default {
-  @apply bg-gray-200;
+  @apply bg-gray-600 text-white px-4 py-1 rounded-md;
+}
+
+input[type='number']::-webkit-outer-spin-button,
+input[type='number']::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type='number'] {
+  -moz-appearance: textfield;
 }

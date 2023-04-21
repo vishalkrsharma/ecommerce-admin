@@ -117,24 +117,27 @@ export default function ProductForm(props) {
         <option value=''>Uncategorized</option>
         {categories.length > 0 && categories.map((cat) => <option value={cat._id}>{cat.name}</option>)}
       </select>
+      <label htmlFor='properties'>Properties</label>
       {propertiesToFill.length > 0 &&
         propertiesToFill.map((p) => (
-          <div className='flex gap-1'>
-            <div>{p.name}</div>
-            <select value={productData.properties[p.name]} onChange={(ev) => setProductProp(p.name, ev.target.value)}>
-              <option value=''>No Value</option>
-              {p.values.map((v) => (
-                <option value={v}>{v}</option>
-              ))}
-            </select>
+          <div className='flex flex-col'>
+            <label>{p.name[0].toUpperCase() + p.name.substring(1)}</label>
+            <div>
+              <select id='properties' value={productData.properties[p.name]} onChange={(ev) => setProductProp(p.name, ev.target.value)}>
+                <option value=''>No Value</option>
+                {p.values.map((v) => (
+                  <option value={v}>{v}</option>
+                ))}
+              </select>
+            </div>
           </div>
         ))}
 
       <label htmlFor='image'>Images</label>
       <div className='flex gap-2 items-center mb-2'>
-        <div className=' w-32 h-32 border flex justify-center items-center flex-col bg-gray-200 rounded-lg relative'>
-          <BiUpload className={`text-4xl ${productData.image === '' ? 'text-blue-900' : 'text-gray-500'}`} />
-          <div className={`${productData.image === '' ? 'text-blue-900' : 'text-gray-500'}`}>Upload</div>
+        <div className=' w-32 h-32 border flex justify-center items-center flex-col bg-gray-200 rounded-lg relative shadow-md'>
+          <BiUpload className={`text-4xl ${productData.image === '' ? 'text-primary' : 'text-gray-500'}`} />
+          <div className={`${productData.image === '' ? 'text-primary' : 'text-gray-500'}`}>Upload</div>
           <input
             className='w-full h-full absolute mt-3 z-10 opacity-0 cursor-pointer'
             type='file'

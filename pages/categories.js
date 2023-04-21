@@ -200,7 +200,7 @@ function Categories({ swal }) {
                       <button className='btn-primary mr-2' onClick={() => editCategory(cat)}>
                         Edit
                       </button>
-                      <button onClick={() => deleteCategory(cat)} className='btn-primary'>
+                      <button onClick={() => deleteCategory(cat)} className='btn-red'>
                         Delete
                       </button>
                     </td>
