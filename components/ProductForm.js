@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { BiUpload, BiTrash } from 'react-icons/bi';
 
 export default function ProductForm(props) {
-  const { _id, title: prevTitle, description: prevDescription, price: prevPrice, image: prevImage, category: prevCategory, properties: prevProperties } = props;
+  const { _id, product } = props;
   const router = useRouter();
   const [goToProducts, setGoToProducts] = useState(false);
   const [categories, setCategories] = useState([]);
@@ -14,22 +14,15 @@ export default function ProductForm(props) {
     title: '',
     description: '',
     price: '',
-    image: '',
+    image: [],
     category: '',
     properties: {},
   });
 
   if (router.asPath.includes('/products/edit')) {
     useEffect(() => {
-      setProductData({
-        title: prevTitle,
-        description: prevDescription,
-        price: prevPrice,
-        image: prevImage,
-        category: prevCategory,
-        properties: prevProperties,
-      });
-    }, [prevTitle, prevDescription, prevPrice, prevImage, prevDescription]);
+      setProductData(product);
+    }, [product]);
   }
 
   useEffect(() => {
@@ -44,11 +37,10 @@ export default function ProductForm(props) {
   const imgToBase64 = (event) => {
     const reader = new FileReader();
     reader.readAsDataURL(event.target.files[0]);
-    const imgs = [];
     reader.onload = () => {
       setProductData((prevProductData) => ({
         ...prevProductData,
-        image: reader.result,
+        image: [...prevProductData.image, reader.result],
       }));
     };
   };
@@ -65,19 +57,20 @@ export default function ProductForm(props) {
 
   const createProduct = async (event) => {
     event.preventDefault();
-    console.log(productData);
-    if (_id) {
-      await axios.put('/api/products', { ...productData, _id });
+    if (productData._id) {
+      await axios.put('/api/products', productData);
     } else {
       await axios.post('/api/products', productData);
     }
     setGoToProducts(true);
   };
 
-  const deleteImage = () => {
+  const deleteImage = (ind) => {
     setProductData((prevProductData) => ({
       ...prevProductData,
-      image: '',
+      image: prevProductData.image?.filter((img, idx) => {
+        return ind !== idx;
+      }),
     }));
   };
 
@@ -107,6 +100,15 @@ export default function ProductForm(props) {
     }
   }
 
+  const updateImageOrder = (image) => {
+    setProductData((prevProductData) => ({
+      ...prevProductData,
+      image: image,
+    }));
+  };
+
+  console.log(productData);
+
   return (
     <form onSubmit={createProduct}>
       <label htmlFor='title'>Product Name</label>
@@ -115,7 +117,12 @@ export default function ProductForm(props) {
       <label htmlFor='category'>Category</label>
       <select value={productData.category} name='category' onChange={handleChange}>
         <option value=''>Uncategorized</option>
-        {categories.length > 0 && categories.map((cat) => <option value={cat._id}>{cat.name}</option>)}
+        {categories.length > 0 &&
+          categories.map((cat, ind) => (
+            <option value={cat._id} key={ind}>
+              {cat.name}
+            </option>
+          ))}
       </select>
       <label htmlFor='properties'>Properties</label>
       {propertiesToFill.length > 0 &&
@@ -138,23 +145,20 @@ export default function ProductForm(props) {
         <div className=' w-32 h-32 border flex justify-center items-center flex-col bg-gray-200 rounded-lg relative shadow-md'>
           <BiUpload className={`text-4xl ${productData.image === '' ? 'text-primary' : 'text-gray-500'}`} />
           <div className={`${productData.image === '' ? 'text-primary' : 'text-gray-500'}`}>Upload</div>
-          <input
-            className='w-full h-full absolute mt-3 z-10 opacity-0 cursor-pointer'
-            type='file'
-            id='image'
-            onChange={imgToBase64}
-            disabled={productData.image !== ''}
-          />
+          <input className='w-full h-full absolute mt-3 z-10 opacity-0 cursor-pointer' type='file' id='image' onChange={imgToBase64} />
         </div>
-        {productData.image === '' ? (
+
+        {productData.image?.length === 0 ? (
           <div className='w-32 h-32 flex items-center justify-center'>No Images</div>
         ) : (
-          <div className='relative' onClick={deleteImage}>
-            <Image className='rounded-lg' src={productData.image} width={128} height={128} alt='product image' />
-            <div className='absolute w-32 h-32 text-4xl -top-1 z-10 flex items-center justify-center text-white'>
-              <BiTrash />
+          productData.image?.map((img, ind) => (
+            <div className='relative' onClick={() => deleteImage(ind)}>
+              <Image className='rounded-lg' src={img} width={128} height={128} alt='product image' />
+              <div className='absolute w-32 h-32 text-4xl -top-1 z-10 flex items-center justify-center text-white'>
+                <BiTrash />
+              </div>
             </div>
-          </div>
+          ))
         )}
       </div>
 

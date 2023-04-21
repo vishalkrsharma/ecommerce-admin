@@ -20,10 +20,11 @@ export default function EditProduct() {
     getProduct();
   }, []);
 
+  console.log(product);
   return (
     <Layout>
       <h1>Edit Product</h1>
-      <ProductForm {...product} />
+      <ProductForm product={product} />
     </Layout>
   );
 }
