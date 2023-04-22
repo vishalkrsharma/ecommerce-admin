@@ -4,8 +4,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { BiUpload, BiTrash } from 'react-icons/bi';
 
-export default function ProductForm(props) {
-  const { _id, product } = props;
+export default function ProductForm({ product }) {
   const router = useRouter();
   const [goToProducts, setGoToProducts] = useState(false);
   const [categories, setCategories] = useState([]);
@@ -99,15 +98,6 @@ export default function ProductForm(props) {
       catInfo = parentCat;
     }
   }
-
-  const updateImageOrder = (image) => {
-    setProductData((prevProductData) => ({
-      ...prevProductData,
-      image: image,
-    }));
-  };
-
-  console.log(productData);
 
   return (
     <form onSubmit={createProduct}>
