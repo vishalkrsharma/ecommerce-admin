@@ -1,5 +1,4 @@
 import Layout from '@/components/Layout';
-import Nav from '@/components/Nav';
 import { useSession, signOut } from 'next-auth/react';
 import Image from 'next/image';
 
