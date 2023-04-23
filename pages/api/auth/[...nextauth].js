@@ -24,6 +24,7 @@ export const authOptions = {
       }
     },
   },
+  secret: process.env.SECRET,
 };
 
 export async function isAdminRequest(req, res) {
