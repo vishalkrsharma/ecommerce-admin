@@ -8,10 +8,10 @@ export default async function handle(req, res) {
   await isAdminRequest(req, res);
 
   if (method === 'POST') {
-    const { title, description, price, image, category, properties } = req.body;
+    const { title, description, price, images, category, properties } = req.body;
     const productDoc = await Product.create({
       title,
-      image,
+      images,
       description,
       price,
       category,
@@ -29,9 +29,9 @@ export default async function handle(req, res) {
   }
 
   if (method === 'PUT') {
-    const { title, description, price, image, _id, category, properties } = req.body;
+    const { title, description, price, images, _id, category, properties } = req.body;
     console.log(req.body);
-    await Product.updateOne({ _id }, { title, description, price, image, category, properties });
+    await Product.updateOne({ _id }, { title, description, price, images, category, properties });
     res.json(true);
   }
 

@@ -13,7 +13,7 @@ export default function ProductForm({ product }) {
     title: '',
     description: '',
     price: '',
-    image: [],
+    images: [],
     category: '',
     properties: {},
   });
@@ -39,7 +39,7 @@ export default function ProductForm({ product }) {
     reader.onload = () => {
       setProductData((prevProductData) => ({
         ...prevProductData,
-        image: [...prevProductData.image, reader.result],
+        images: [...prevProductData.images, reader.result],
       }));
     };
   };
@@ -67,7 +67,7 @@ export default function ProductForm({ product }) {
   const deleteImage = (ind) => {
     setProductData((prevProductData) => ({
       ...prevProductData,
-      image: prevProductData.image?.filter((img, idx) => {
+      images: prevProductData.images?.filter((img, idx) => {
         return ind !== idx;
       }),
     }));
@@ -130,20 +130,20 @@ export default function ProductForm({ product }) {
           </div>
         ))}
 
-      <label htmlFor='image'>Images</label>
+      <label htmlFor='images'>Images</label>
       <div className='flex gap-2 items-center mb-2'>
         <div className=' w-32 h-32 border flex justify-center items-center flex-col bg-gray-200 rounded-lg relative shadow-md'>
-          <BiUpload className={`text-4xl ${productData.image === '' ? 'text-primary' : 'text-gray-500'}`} />
-          <div className={`${productData.image === '' ? 'text-primary' : 'text-gray-500'}`}>Upload</div>
-          <input className='w-full h-full absolute mt-3 z-10 opacity-0 cursor-pointer' type='file' id='image' onChange={imgToBase64} />
+          <BiUpload className={`text-4xl ${productData.images === '' ? 'text-primary' : 'text-gray-500'}`} />
+          <div className={`${productData.images === '' ? 'text-primary' : 'text-gray-500'}`}>Upload</div>
+          <input className='w-full h-full absolute mt-3 z-10 opacity-0 cursor-pointer' type='file' id='images' onChange={imgToBase64} />
         </div>
 
-        {productData.image?.length === 0 ? (
+        {productData.images?.length === 0 ? (
           <div className='w-32 h-32 flex items-center justify-center'>No Images</div>
         ) : (
-          productData.image?.map((img, ind) => (
+          productData.images?.map((img, ind) => (
             <div className='relative' onClick={() => deleteImage(ind)}>
-              <Image className='rounded-lg' src={img} width={128} height={128} alt='product image' />
+              <Image className='rounded-lg' src={img} width={128} height={128} alt='product images' />
               <div className='absolute w-32 h-32 text-4xl -top-1 z-10 flex items-center justify-center text-white'>
                 <BiTrash />
               </div>
