@@ -16,7 +16,6 @@ import { Separator } from '@/components/ui/separator';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import AlertModal from '@/components/modals/alert-modal';
-import useOrigin from '@/hooks/use-origin';
 import ImageUpload from '@/components/ui/image-upload';
 
 const formSchema = z.object({
@@ -31,7 +30,6 @@ const BillboardForm = ({ initialData }: { initialData: Billboard | null }) => {
   const [loading, setLoading] = useState(false);
   const params = useParams();
   const router = useRouter();
-  const origin = useOrigin();
 
   const title = initialData ? 'Edit billboard' : 'Create billboard';
   const description = initialData ? 'Edit a billboard' : 'Add a new billboard';
@@ -54,8 +52,8 @@ const BillboardForm = ({ initialData }: { initialData: Billboard | null }) => {
       } else {
         await axios.post(`/api/${params.storeId}/billboards`, data);
       }
-      router.refresh();
       router.push(`/${params.storeId}/billboards`);
+      router.refresh();
       toast.success(toastMessage);
     } catch (error) {
       toast.error('Something went wrong.');
@@ -68,9 +66,9 @@ const BillboardForm = ({ initialData }: { initialData: Billboard | null }) => {
     try {
       setLoading(true);
       axios.delete(`/api/${params.storeId}/billboards/${params.billboardId}`);
+      router.push(`/${params.storeId}/billboards`);
       router.refresh();
-      router.push('/');
-      toast.success('Store deleted.');
+      toast.success('Billboard deleted.');
     } catch (error) {
       toast.error('Make sure you removed all categories using this billboard first.');
     } finally {
@@ -78,6 +76,7 @@ const BillboardForm = ({ initialData }: { initialData: Billboard | null }) => {
       setOpen(false);
     }
   };
+
   return (
     <>
       <AlertModal
