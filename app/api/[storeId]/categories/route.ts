@@ -22,7 +22,7 @@ export async function POST(req: Request, { params }: { params: { storeId: string
     }
 
     if (!params.storeId) {
-      return new NextResponse('Store Id is required', { status: 40 });
+      return new NextResponse('Store Id is required', { status: 400 });
     }
 
     const storeByUserId = await prismadb.store.findFirst({
@@ -54,7 +54,7 @@ export async function POST(req: Request, { params }: { params: { storeId: string
 export async function GET(req: Request, { params }: { params: { storeId: string } }) {
   try {
     if (!params.storeId) {
-      return new NextResponse('Store Id is required', { status: 40 });
+      return new NextResponse('Store Id is required', { status: 400 });
     }
 
     const categories = await prismadb.category.findMany({
