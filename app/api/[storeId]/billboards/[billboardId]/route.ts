@@ -5,7 +5,7 @@ import { NextResponse } from 'next/server';
 export async function GET(req: Request, { params }: { params: { billboardId: string } }) {
   try {
     if (!params.billboardId) {
-      return new NextResponse('Billboard id is required', { status: 400 });
+      return new NextResponse('Billboard Id is required', { status: 400 });
     }
 
     const billboard = await prismadb.billboard.findUnique({
@@ -40,7 +40,7 @@ export async function PATCH(req: Request, { params }: { params: { billboardId: s
     }
 
     if (!params.billboardId) {
-      return new NextResponse('Billboard id is required', { status: 400 });
+      return new NextResponse('Billboard Id is required', { status: 400 });
     }
 
     const storeByUserId = await prismadb.store.findFirst({
@@ -80,7 +80,7 @@ export async function DELETE(req: Request, { params }: { params: { billboardId: 
     }
 
     if (!params.billboardId) {
-      return new NextResponse('Billboard id is required', { status: 400 });
+      return new NextResponse('Billboard Id is required', { status: 400 });
     }
 
     const storeByUserId = await prismadb.store.findFirst({
