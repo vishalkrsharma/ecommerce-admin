@@ -33,6 +33,7 @@ const CellAction = ({ data }: { data: ColorColumn }) => {
     } catch (error) {
       toast.error('Make sure you removed all products using this color first.');
     } finally {
+      router.refresh();
       setLoading(false);
       setOpen(false);
     }

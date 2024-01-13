@@ -58,6 +58,7 @@ const SizeForm = ({ initialData }: { initialData: Size | null }) => {
     } catch (error) {
       toast.error('Something went wrong.');
     } finally {
+      router.refresh();
       setLoading(false);
     }
   };
@@ -72,6 +73,7 @@ const SizeForm = ({ initialData }: { initialData: Size | null }) => {
     } catch (error) {
       toast.error('Make sure you removed all products using this size first.');
     } finally {
+      router.refresh();
       setLoading(false);
       setOpen(false);
     }

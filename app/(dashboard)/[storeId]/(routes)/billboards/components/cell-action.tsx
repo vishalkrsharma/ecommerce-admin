@@ -33,6 +33,7 @@ const CellAction = ({ data }: { data: BillboardColumn }) => {
     } catch (error) {
       toast.error('Make sure you removed all categories using this billboard first.');
     } finally {
+      router.refresh();
       setLoading(false);
       setOpen(false);
     }

@@ -88,6 +88,7 @@ const ProductForm = ({ initialData, categories, sizes, colors }: ProductFormProp
     } catch (error) {
       toast.error('Something went wrong.');
     } finally {
+      router.refresh();
       setLoading(false);
     }
   };

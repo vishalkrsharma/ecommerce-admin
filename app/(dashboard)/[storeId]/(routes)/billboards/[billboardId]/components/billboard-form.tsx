@@ -58,6 +58,7 @@ const BillboardForm = ({ initialData }: { initialData: Billboard | null }) => {
     } catch (error) {
       toast.error('Something went wrong.');
     } finally {
+      router.refresh();
       setLoading(false);
     }
   };
@@ -72,6 +73,7 @@ const BillboardForm = ({ initialData }: { initialData: Billboard | null }) => {
     } catch (error) {
       toast.error('Make sure you removed all categories using this billboard first.');
     } finally {
+      router.refresh();
       setLoading(false);
       setOpen(false);
     }

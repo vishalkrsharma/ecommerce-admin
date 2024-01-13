@@ -58,6 +58,7 @@ const CategoryForm = ({ initialData, billboards }: { initialData: Category | nul
     } catch (error) {
       toast.error('Something went wrong.');
     } finally {
+      router.refresh();
       setLoading(false);
     }
   };
@@ -72,6 +73,7 @@ const CategoryForm = ({ initialData, billboards }: { initialData: Category | nul
     } catch (error) {
       toast.error('Make sure you removed all products using this category first.');
     } finally {
+      router.refresh();
       setLoading(false);
       setOpen(false);
     }
