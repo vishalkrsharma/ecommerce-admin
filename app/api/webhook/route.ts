@@ -40,27 +40,37 @@ export async function POST(req: Request) {
     });
 
     const productIds = order.orderItems.map((orderItem) => orderItem.productId);
-    console.log(productIds);
 
-    // try {
-    await Promise.all(
-      order.orderItems.map(async (item) =>
-        prismadb.product.update({
-          where: {
-            id: item.productId,
-          },
-          data: {
-            stock: {
-              decrement: item.quantity,
+    try {
+      await Promise.all(
+        order.orderItems.map(async (item) => {
+          const updatedProduct = await prismadb.product.update({
+            where: {
+              id: item.productId,
             },
-          },
+            data: {
+              stock: {
+                decrement: item.quantity,
+              },
+            },
+          });
+
+          if (updatedProduct.stock === 0) {
+            await prismadb.product.update({
+              where: {
+                id: item.productId,
+              },
+              data: {
+                isArchived: true,
+              },
+            });
+          }
         })
-      )
-    );
-    // } catch (error) {
-    //   console.log('[STRIPE_WEBHOOK]', error);
-    //   return new NextResponse('Internal error', { status: 500 });
-    // }
+      );
+    } catch (error) {
+      console.log('[STRIPE_WEBHOOK]', error);
+      return new NextResponse('Internal error', { status: 500 });
+    }
 
     // order.orderItems.forEach(
     //   async (item) =>
