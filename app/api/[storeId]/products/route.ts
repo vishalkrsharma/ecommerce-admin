@@ -9,7 +9,7 @@ export async function POST(req: Request, { params }: { params: { storeId: string
 
     const body = await req.json();
 
-    const { name, price, categoryId, colorId, sizeId, images, isFeatured, isArchived } = body;
+    const { name, price, categoryId, colorId, sizeId, images, isFeatured, isArchived, stock } = body;
 
     if (!userId) {
       return new NextResponse('Unauthenticated', { status: 403 });
@@ -64,6 +64,7 @@ export async function POST(req: Request, { params }: { params: { storeId: string
         colorId,
         sizeId,
         storeId: params.storeId,
+        stock,
         images: {
           createMany: {
             data: [...images.map((image: { url: string }) => image)],

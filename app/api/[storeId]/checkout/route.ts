@@ -15,11 +15,13 @@ export async function OPTIONS() {
 }
 
 export async function POST(req: Request, { params }: { params: { storeId: string } }) {
-  const { productIds } = await req.json();
+  const { productsFromOrder } = await req.json();
 
-  if (!productIds || productIds.length === 0) {
+  if (!productsFromOrder || productsFromOrder.length === 0) {
     return new NextResponse('Product ids are required', { status: 400 });
   }
+
+  const productIds = productsFromOrder.map((product: any) => product.id);
 
   const products = await prismadb.product.findMany({
     where: {
@@ -31,9 +33,9 @@ export async function POST(req: Request, { params }: { params: { storeId: string
 
   const line_items: Stripe.Checkout.SessionCreateParams.LineItem[] = [];
 
-  products.forEach((product) => {
+  products.forEach((product, idx) => {
     line_items.push({
-      quantity: 1,
+      quantity: productsFromOrder[idx].quantity,
       price_data: {
         currency: 'USD',
         product_data: {
@@ -49,16 +51,33 @@ export async function POST(req: Request, { params }: { params: { storeId: string
       storeId: params.storeId,
       isPaid: false,
       orderItems: {
-        create: productIds.map((productId: string) => ({
+        create: productsFromOrder.map((product: any) => ({
           product: {
             connect: {
-              id: productId,
+              id: product.id,
             },
           },
+          quantity: product.quantity,
         })),
       },
     },
   });
+
+  // const order = await prismadb.order.create({
+  //   data: {
+  //     storeId: params.storeId,
+  //     isPaid: false,
+  //     orderItems: {
+  //       create: productIds.map((productId: string) => ({
+  //         product: {
+  //           connect: {
+  //             id: productId,
+  //           },
+  //         },
+  //       })),
+  //     },
+  //   },
+  // });
 
   const session = await stripe.checkout.sessions.create({
     line_items,

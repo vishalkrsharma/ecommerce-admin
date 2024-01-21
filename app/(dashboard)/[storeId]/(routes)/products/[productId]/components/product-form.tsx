@@ -27,6 +27,7 @@ const formSchema = z.object({
   categoryId: z.string().min(1),
   colorId: z.string().min(1),
   sizeId: z.string().min(1),
+  stock: z.coerce.number().default(1),
   isFeatured: z.boolean().default(false).optional(),
   isArchived: z.boolean().default(false).optional(),
 });
@@ -69,6 +70,7 @@ const ProductForm = ({ initialData, categories, sizes, colors }: ProductFormProp
           categoryId: '',
           colorId: '',
           sizeId: '',
+          stock: 0,
           isFeatured: false,
           isArchived: false,
         },
@@ -181,7 +183,6 @@ const ProductForm = ({ initialData, categories, sizes, colors }: ProductFormProp
                   <FormLabel>Price</FormLabel>
                   <FormControl>
                     <Input
-                      type='number'
                       disabled={loading}
                       placeholder='Ex. 99.99'
                       {...field}
@@ -292,6 +293,23 @@ const ProductForm = ({ initialData, categories, sizes, colors }: ProductFormProp
                       ))}
                     </SelectContent>
                   </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name='stock'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Stock</FormLabel>
+                  <FormControl>
+                    <Input
+                      disabled={loading}
+                      placeholder='Stock'
+                      {...field}
+                    />
+                  </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
