@@ -39,18 +39,61 @@ export async function POST(req: Request) {
       },
     });
 
-    const productIds = order.orderItems.map((orderItem) => orderItem.productId);
+    try {
+      await Promise.all(
+        order.orderItems.map(async (item) => {
+          const updatedProduct = await prismadb.product.update({
+            where: {
+              id: item.productId,
+            },
+            data: {
+              stock: {
+                decrement: item.quantity,
+              },
+            },
+          });
 
-    await prismadb.product.updateMany({
-      where: {
-        id: {
-          in: [...productIds],
-        },
-      },
-      data: {
-        isArchived: true,
-      },
-    });
+          if (updatedProduct.stock === 0) {
+            await prismadb.product.update({
+              where: {
+                id: item.productId,
+              },
+              data: {
+                isArchived: true,
+              },
+            });
+          }
+        })
+      );
+    } catch (error) {
+      console.log('[STRIPE_WEBHOOK]', error);
+      return new NextResponse('Internal error', { status: 500 });
+    }
+
+    // order.orderItems.forEach(
+    //   async (item) =>
+    //     await prismadb.product.update({
+    //       where: {
+    //         id: item.productId,
+    //       },
+    //       data: {
+    //         stock: {
+    //           decrement: item.quantity,
+    //         },
+    //       },
+    //     })
+    // );
+
+    // await prismadb.product.updateMany({
+    //   where: {
+    //     id: {
+    //       in: [...productIds],
+    //     },
+    //   },
+    //   data: {
+    //     isArchived: true,
+    //   },
+    // });
   }
 
   return new NextResponse(null, { status: 200 });

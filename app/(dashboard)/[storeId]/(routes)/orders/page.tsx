@@ -26,7 +26,7 @@ const OrdersPage = async ({ params }: { params: { storeId: string } }) => {
     id: item.id,
     phone: item.phone,
     address: item.address,
-    products: item.orderItems.map((orderItem) => orderItem.product.name).join(', '),
+    products: item.orderItems.map((orderItem) => `${orderItem.product.name} x ${orderItem.quantity}`).join(', '),
     totalPrice: formatter.format(
       item.orderItems.reduce((total, item) => {
         return total + Number(item.product.price);
