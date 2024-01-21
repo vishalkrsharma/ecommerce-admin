@@ -39,8 +39,6 @@ export async function POST(req: Request) {
       },
     });
 
-    const productIds = order.orderItems.map((orderItem) => orderItem.productId);
-
     try {
       await Promise.all(
         order.orderItems.map(async (item) => {
