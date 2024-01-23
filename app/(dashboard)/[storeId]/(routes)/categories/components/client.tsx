@@ -1,13 +1,15 @@
 'use client';
 
+import { Plus } from 'lucide-react';
+
 import { Button } from '@/components/ui/button';
 import Heading from '@/components/ui/heading';
 import { Separator } from '@/components/ui/separator';
-import { Plus } from 'lucide-react';
 import { useParams, useRouter } from 'next/navigation';
-import { CategoryColumn, columns } from './column';
 import { DataTable } from '@/components/ui/data-table';
 import ApiList from '@/components/ui/api-list';
+
+import { CategoryColumn, columns } from './column';
 
 const CategoryClient = ({ data }: { data: CategoryColumn[] }) => {
   const router = useRouter();
