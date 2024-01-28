@@ -6,7 +6,7 @@ import { PropsWithChildren } from 'react';
 const SetupLayout = async ({ children }: PropsWithChildren) => {
   const { userId } = auth();
 
-  if (!userId) redirect('/sigin-in');
+  if (!userId) redirect('/sign-in');
 
   const store = await prismadb.store.findFirst({
     where: {
