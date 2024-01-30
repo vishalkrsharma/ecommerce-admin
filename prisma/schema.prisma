@@ -69,6 +69,7 @@ model Product {
   color       Color     @relation(fields: [colorId], references: [id])
   images      Image[]
   orderItems  OrderItem[]
+  reviews     Review[]
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
 
@@ -140,4 +141,19 @@ model Image {
   updatedAt   DateTime @updatedAt
 
   @@index([productId])
+}
+
+model Review {
+  id        String @id @default(uuid())
+  sentiment Sentiment
+  content   String
+  productId String
+  userId    String[]
+  product   Product  @relation(fields: [productId], references: [id])
+  createdAt DateTime  @default(now())
+}
+
+enum Sentiment {
+  GOOD
+  BAD
 }
