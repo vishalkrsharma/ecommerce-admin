@@ -145,15 +145,10 @@ model Image {
 
 model Review {
   id        String @id @default(uuid())
-  sentiment Sentiment
+  sentiment String
   content   String
   productId String
-  userId    String[]
+  userId    String
   product   Product  @relation(fields: [productId], references: [id])
   createdAt DateTime  @default(now())
-}
-
-enum Sentiment {
-  GOOD
-  BAD
 }
