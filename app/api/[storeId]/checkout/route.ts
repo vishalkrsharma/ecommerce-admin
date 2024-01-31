@@ -33,7 +33,7 @@ export async function POST(req: Request, { params }: { params: { storeId: string
 
   const line_items: Stripe.Checkout.SessionCreateParams.LineItem[] = [];
 
-  products.forEach((product, idx) => {
+  products.forEach((product: any, idx: number) => {
     line_items.push({
       quantity: productsFromOrder[idx].quantity,
       price_data: {
@@ -62,22 +62,6 @@ export async function POST(req: Request, { params }: { params: { storeId: string
       },
     },
   });
-
-  // const order = await prismadb.order.create({
-  //   data: {
-  //     storeId: params.storeId,
-  //     isPaid: false,
-  //     orderItems: {
-  //       create: productIds.map((productId: string) => ({
-  //         product: {
-  //           connect: {
-  //             id: productId,
-  //           },
-  //         },
-  //       })),
-  //     },
-  //   },
-  // });
 
   const session = await stripe.checkout.sessions.create({
     line_items,

@@ -41,7 +41,7 @@ export async function POST(req: Request) {
 
     try {
       await Promise.all(
-        order.orderItems.map(async (item) => {
+        order.orderItems.map(async (item: any) => {
           const updatedProduct = await prismadb.product.update({
             where: {
               id: item.productId,

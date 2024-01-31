@@ -17,7 +17,7 @@ const CategoriesPage = async ({ params }: { params: { storeId: string } }) => {
     },
   });
 
-  const formattedCategories: CategoryColumn[] = categories.map((item) => ({
+  const formattedCategories: CategoryColumn[] = categories.map((item: any) => ({
     id: item.id,
     name: item.name,
     billboardLabel: item.billboard.label,
