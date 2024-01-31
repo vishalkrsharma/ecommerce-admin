@@ -22,13 +22,13 @@ const OrdersPage = async ({ params }: { params: { storeId: string } }) => {
     },
   });
 
-  const formattedOrders: OrderColumn[] = orders.map((item) => ({
+  const formattedOrders: OrderColumn[] = orders.map((item: any) => ({
     id: item.id,
     phone: item.phone,
     address: item.address,
-    products: item.orderItems.map((orderItem) => `${orderItem.product.name} x ${orderItem.quantity}`).join(', '),
+    products: item.orderItems.map((orderItem: any) => `${orderItem.product.name} x ${orderItem.quantity}`).join(', '),
     totalPrice: formatter.format(
-      item.orderItems.reduce((total, item) => {
+      item.orderItems.reduce((total: number, item: any) => {
         return total + Number(item.product.price);
       }, 0)
     ),
