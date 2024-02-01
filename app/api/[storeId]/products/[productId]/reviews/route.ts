@@ -1,5 +1,4 @@
 import prismadb from '@/lib/prismadb';
-import { auth } from '@clerk/nextjs';
 import { NextResponse } from 'next/server';
 
 const corsHeaders = {
@@ -29,10 +28,6 @@ export async function POST(req: Request, { params }: { params: { productId: stri
       return new NextResponse('Label is required', { status: 400 });
     }
 
-    // if (!userId) {
-    //   return new NextResponse('Unauthenticated', { status: 401 });
-    // }
-
     if (!storeUserId) {
       return new NextResponse('Store User Id is required', { status: 400 });
     }
@@ -49,6 +44,32 @@ export async function POST(req: Request, { params }: { params: { productId: stri
     return NextResponse.json(review, { headers: corsHeaders });
   } catch (error) {
     console.log('[REVIEW_POST]', error);
+    return new NextResponse('Internal Error', { status: 500 });
+  }
+}
+
+export async function GET(req: Request, { params }: { params: { storeId: string; productId: string } }) {
+  try {
+    if (!params.storeId) {
+      return new NextResponse('Store Id is required', { status: 400 });
+    }
+
+    if (!params.productId) {
+      return new NextResponse('Product Id is required', { status: 400 });
+    }
+
+    const reviews = await prismadb.review.findMany({
+      where: {
+        productId: params.productId,
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+    });
+
+    return NextResponse.json(reviews);
+  } catch (error) {
+    console.log('[REVIEWS_GET]', error);
     return new NextResponse('Internal Error', { status: 500 });
   }
 }
