@@ -59,11 +59,15 @@ const CellAction = ({ data }: { data: ProductColumn }) => {
         </DropdownMenuTrigger>
         <DropdownMenuContent align='center'>
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
+          <DropdownMenuItem onClick={() => router.push(`/${params.storeId}/products/${data.id}`)}>
+            <Copy className='mr-2 h-4 w-4' />
+            Info
+          </DropdownMenuItem>
           <DropdownMenuItem onClick={() => onCopy(data.id)}>
             <Copy className='mr-2 h-4 w-4' />
             Copy Id
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => router.push(`/${params.storeId}/products/${data.id}`)}>
+          <DropdownMenuItem onClick={() => router.push(`/${params.storeId}/products/${data.id}/update`)}>
             <Edit className='mr-2 h-4 w-4' />
             Update
           </DropdownMenuItem>
