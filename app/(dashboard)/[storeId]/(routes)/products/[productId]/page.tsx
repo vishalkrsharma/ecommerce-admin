@@ -3,7 +3,9 @@ import Heading from '@/components/ui/heading';
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
 import prismadb from '@/lib/prismadb';
+import { formatDate } from '@/lib/utils';
 import { Review } from '@prisma/client';
+import { ThumbsDown, ThumbsUp } from 'lucide-react';
 
 const ProductInfoPage = async ({ params }: { params: { productId: string } }) => {
   const product = await prismadb.product.findUnique({
@@ -100,9 +102,16 @@ const ProductInfoPage = async ({ params }: { params: { productId: string } }) =>
           title='Review'
           description='Reviews about the product'
         />
-        <div className='my-8 grid grid-cols-3 gap-8'>
+        <div className='my-8 lg:grid lg:grid-cols-3 max-lg:space-y-4 gap-4'>
           {product.reviews.map((review: Review) => (
-            <div className='border px-4 py-3 rounded-lg'>{review.content}</div>
+            <div className='border px-4 py-3 rounded-lg items-center'>
+              <div className='flex justify-start items-center space-x-2'>
+                {review.sentiment === 'GOOD' ? <ThumbsUp className='text-gray-300' /> : <ThumbsDown className='text-gray-300' />}
+                <p>{formatDate(review.createdAt)}</p>
+              </div>
+              <Separator className='my-2' />
+              {review.content}
+            </div>
           ))}
         </div>
       </div>
