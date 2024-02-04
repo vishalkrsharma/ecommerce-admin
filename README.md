@@ -96,6 +96,21 @@ This section outlines the APIs available for integration with the Ecommerce Admi
   - `PATCH` - Update size of id - `sizeId`
   - `DELETE` - Delete size of id - `sizeId`
 
+- **Products API:** `/api/[storeId]/products`
+
+  - `GET` - Get all Product match the search params
+  - `POST` - Create new Product
+
+- **Product API:** `/api/[storeId]/products/[productId]`
+
+  - `GET` - Get product of id - `productId`
+  - `PATCH` - Update productId of id - `productId`
+  - `DELETE` - Delete productId of id - `productId`
+
+- **Review API:** `/api/[storeId]/products/[productId]/review`
+
+  - `POST` - Create new review for the product of id - `productId`
+
 - **Checkout API:** `/api/[storeId]/checkout`
 
   - `POST` - Create new Order
