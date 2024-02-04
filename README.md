@@ -1,36 +1,148 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Ecommerce Admin Repository
+
+This repository contains the source code for the administration panel of our Ecommerce platform. This admin panel is built using cutting-edge technologies to ensure a seamless and efficient experience for administrators.
+
+## Table of Contents
+
+- [Ecommerce Admin Repository](#ecommerce-admin-repository)
+  - [Table of Contents](#table-of-contents)
+  - [Introduction](#introduction)
+  - [Features](#features)
+  - [Technologies Used](#technologies-used)
+  - [APIs](#apis)
+  - [Getting Started](#getting-started)
+    - [Prerequisites](#prerequisites)
+    - [Installation](#installation)
+
+## Introduction
+
+Our Ecommerce Admin panel leverages the power of Next.js, Tailwind CSS, PostgreSQL, Prisma, Zod, Shadcn UI, and pnpm to provide a robust and modern solution for managing products, orders, and categories in your online store. The use of these technologies ensures a responsive, scalable, and secure administrative experience.
+
+## Features
+
+- **Product Management:** Add, edit, and delete products with ease.
+- **Order Management:** View and manage customer orders efficiently.
+- **Category Management:** Organize products into categories for easy navigation.
+- **User Authentication:** Secure login system for administrators.
+- **Dashboard:** Gain insights into key metrics and performance.
+
+## Technologies Used
+
+- **Next.js:** A React framework for building efficient and scalable web applications.
+- **Tailwind CSS:** A utility-first CSS framework for rapid UI development with a focus on flexibility and customization.
+- **PostgreSQL:** A powerful, open-source relational database system.
+- **Prisma:** A modern database toolkit that simplifies database access and management with type-safe queries.
+- **Zod:** A TypeScript-first schema declaration and validation library for JavaScript and TypeScript.
+- **Shadcn UI:** A custom UI library designed for a clean and intuitive user interface.
+- **Clerk:** An authentication and user management platform.
+- **Cloudinary:** Streamline media management and improve user experience by automatically delivering images and videos, enhanced and optimized for every user.
+- **Zutand:** A small, fast, and scalable bearbones state management solution.
+- **pnpm:** A fast, disk space-efficient package manager.
+
+## APIs
+
+This section outlines the APIs available for integration with the Ecommerce Admin panel. Ensure you have the necessary API keys and endpoints configured in your environment.
+
+- **Stores API:** `/api/stores`
+
+  - `POST` - Create new Store
+
+- **Store API:** `/api/stores/[storeId]`
+
+  - `PATCH` - Update store of id - `storeId`
+  - `DELETE` - Delete store of id - `storeId`
+
+- **Billboards API:** `/api/[storeId]/billboards`
+
+  - `GET` - Get all Billboards
+  - `POST` - Create new Billboard
+
+- **Billboard API:** `/api/[storeId]/billboards/[billboardId]`
+
+  - `GET` - Get billboard of id - `billboardId`
+  - `PATCH` - Update billboard of id - `billboardId`
+  - `DELETE` - Delete billboard of id - `billboardId`
+
+- **Categories API:** `/api/[storeId]/categories`
+
+  - `GET` - Get all Categories
+  - `POST` - Create new Category
+
+- **Category API:** `/api/[storeId]/categories/[categoryId]`
+
+  - `GET` - Get category of id - `categoryId`
+  - `PATCH` - Update category of id - `categoryId`
+  - `DELETE` - Delete category of id - `categoryId`
+
+- **Colors API:** `/api/[storeId]/colors`
+
+  - `GET` - Get all Colors
+  - `POST` - Create new Color
+
+- **Color API:** `/api/[storeId]/colors/[colorId]`
+
+  - `GET` - Get color of id - `colorId`
+  - `PATCH` - Update color of id - `colorId`
+  - `DELETE` - Delete color of id - `colorId`
+
+- **Sizes API:** `/api/[storeId]/sizes`
+
+  - `GET` - Get all Sizes
+  - `POST` - Create new Size
+
+- **Size API:** `/api/[storeId]/sizes/[sizeId]`
+
+  - `GET` - Get size of id - `sizeId`
+  - `PATCH` - Update size of id - `sizeId`
+  - `DELETE` - Delete size of id - `sizeId`
+
+- **Checkout API:** `/api/[storeId]/checkout`
+
+  - `POST` - Create new Order
+
+- **Stripe Webhook API:** `/api/webhook`
+  - `POST` - Trigger Stripe Payment
+
+**Note:** Refer to the provided `.env.example` file for configuring API endpoints and keys.
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Before you begin, ensure you have the following dependencies installed:
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- Node.js
+- pnpm (Package Node Manager)
+- PostgreSQL
+- Prisma CLI
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Installation
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+1. Clone the repository:
 
-## Learn More
+   ```bash
+   git clone https://github.com/vishalkrsharma/ecommerce-admin.git
+   ```
 
-To learn more about Next.js, take a look at the following resources:
+2. Navigate to the project directory:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+   ```bash
+   cd ecommerce-admin
+   ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+3. Install the dependencies:
 
-## Deploy on Vercel
+   ```bash
+   pnpm install
+   ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+4. Set up environment variables:
+   Create a `.env` file based on the provided `.env.example`. You can use the example file as a template for configuring your environment variables.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+5. Run the application:
+
+   ```bash
+   pnpm start
+   ```
+
+The admin panel should now be accessible at http://localhost:3000.
