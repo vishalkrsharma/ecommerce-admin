@@ -157,7 +157,7 @@ Before you begin, ensure you have the following dependencies installed:
 5. Run the application:
 
    ```bash
-   pnpm start
+   pnpm dev
    ```
 
 The admin panel should now be accessible at http://localhost:3000.
